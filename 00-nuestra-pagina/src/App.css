@@ -1,0 +1,22 @@
+body{
+  background-color: rgb(42, 39, 61);
+}
+
+.inicioDePagina {
+  color:aqua;
+  display: flex;
+  align-items: center;
+  gap: 17%;
+
+}
+
+.fotoMati {
+  float: left;
+  padding-left: 0%;
+
+}
+
+.fotoMarian {
+  float: right;
+  
+}

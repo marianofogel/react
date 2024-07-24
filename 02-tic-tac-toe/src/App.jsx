@@ -8,6 +8,7 @@ const TURNS = {
 }
 
 
+// eslint-disable-next-line react/prop-types
 const Square = ({ children, isSelected, updateBoard, index }) => {
   const jugadorActual = `square ${isSelected ? 'is-selected' : ''}`
 
