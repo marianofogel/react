@@ -2,6 +2,7 @@
 import './App.css'
 import { useCatImage } from './hooks/useCatImage';
 import { useCatFact } from './hooks/useCatFact';
+import { Botonardo } from './service/Botonardo';
 // const CAT_ENDPOINT_IMAGE_URL = 'https://cataas.com/cat/says/hello?fontSize=50&fontColor=red&json=true'
 
 
@@ -26,6 +27,10 @@ function App() {
         
         {imageUrl && <img src={imageUrl} alt={`Image extracted using the first three words for ${fact}`} />}
       </main>
+
+      <Botonardo/>
+
+
     </>
   )
 }
