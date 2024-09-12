@@ -3,7 +3,7 @@ import { useMovies } from './hooks/useMovies'
 import { Movies } from './components/Movies'
 import { useState, useRef, useEffect } from 'react'
 
-function useSearch() {
+function useSearch () {
   const [search, updateSearch] = useState('')
   const [error, setError] = useState(null)
   const isFirstInput = useRef(true)
@@ -26,32 +26,27 @@ function useSearch() {
       setError('')
     }
 
-    if (search.startsWith('a',0)) {
+    if (search.startsWith('a', 0)) {
       setError('Como va a empezar con A, pedazo de puto.')
     }
-
-
   }, [search])
 
   return { search, updateSearch, error }
 }
 
-function App() {
-
-  const { movies } = useMovies()
+function App () {
   const { search, updateSearch, error } = useSearch()
-
+  const { movies, getMovies } = useMovies({ search  })
 
   // ! VER EN QUE CAMBIO: VIDEO APRENDE A PASAR UNA PRUEBA TECNICA...
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log({ search })
+    getMovies()
   }
 
   const handleChange = (event) => {
     updateSearch(event.target.value)
   }
-
 
   return (
     <>
@@ -59,10 +54,12 @@ function App() {
         <header>
           <h1>Buscador de peliculas</h1>
           <form className='form' onSubmit={handleSubmit}>
-            <input style={{
-              border: '1px solid transparent',
-              borderColor: error ? 'red' : 'transparent'
-            }} onChange={handleChange} value={search} type='text' name='query' placeholder='Escribi la pelicula a buscar...' />
+            <input
+              style={{
+                border: '1px solid transparent',
+                borderColor: error ? 'red' : 'transparent'
+              }} onChange={handleChange} value={search} type='text' name='query' placeholder='Escribi la pelicula a buscar...'
+            />
             <button type='submit'>Buscar</button>
           </form>
           {error && <p style={{ color: 'red' }}> {error}</p>}
