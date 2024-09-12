@@ -7,7 +7,7 @@ function ListOfMovies({ movies }) {
                     <li className="movie" key={movie.id}>
                         <h3>{movie.title}</h3>
                         <p>{movie.year}</p>
-                        <img src={movie.poster} alt={movie.title}/>
+                        <img src={movie.poster} alt={movie.title} />
                     </li>
                 ))
             }
@@ -21,9 +21,8 @@ function NoMoviesResult() {
     )
 }
 
-
 export function Movies({ movies }) {
-    
+
     const hasMovies = movies?.length > 0
 
     return (

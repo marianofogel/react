@@ -3,7 +3,7 @@ import { useMovies } from './hooks/useMovies'
 import { Movies } from './components/Movies'
 import { useState, useRef, useEffect } from 'react'
 
-function useSearch () {
+function useSearch() {
   const [search, updateSearch] = useState('')
   const [error, setError] = useState(null)
   const isFirstInput = useRef(true)
@@ -26,17 +26,14 @@ function useSearch () {
       setError('')
     }
 
-    if (search.startsWith('a', 0)) {
-      setError('Como va a empezar con A, pedazo de puto.')
-    }
   }, [search])
 
   return { search, updateSearch, error }
 }
 
-function App () {
+function App() {
   const { search, updateSearch, error } = useSearch()
-  const { movies, getMovies } = useMovies({ search  })
+  const { movies, getMovies, loading } = useMovies({ search })
 
   // ! VER EN QUE CAMBIO: VIDEO APRENDE A PASAR UNA PRUEBA TECNICA...
   const handleSubmit = (event) => {
@@ -60,13 +57,16 @@ function App () {
                 borderColor: error ? 'red' : 'transparent'
               }} onChange={handleChange} value={search} type='text' name='query' placeholder='Escribi la pelicula a buscar...'
             />
+
             <button type='submit'>Buscar</button>
           </form>
           {error && <p style={{ color: 'red' }}> {error}</p>}
         </header>
 
         <main>
-          <Movies movies={movies} />
+          {
+            loading ? <p>Cargando... </p> : <Movies movies={movies} />
+          }
         </main>
       </div>
     </>
