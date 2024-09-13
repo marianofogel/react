@@ -1,7 +1,8 @@
 import './App.css'
 import { useMovies } from './hooks/useMovies'
 import { Movies } from './components/Movies'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import debounce from 'just-debounce-it'
 
 function useSearch() {
   const [search, updateSearch] = useState('')
@@ -26,24 +27,41 @@ function useSearch() {
       setError('')
     }
 
-  }, [search])
+  }, [search]) //dependencias
 
   return { search, updateSearch, error }
 }
 
 function App() {
+
+  const [sort, setSort] = useState(false)
   const { search, updateSearch, error } = useSearch()
-  const { movies, getMovies, loading } = useMovies({ search })
+  const { movies, getMovies, loading } = useMovies({ search, sort })
 
   // ! VER EN QUE CAMBIO: VIDEO APRENDE A PASAR UNA PRUEBA TECNICA...
   const handleSubmit = (event) => {
     event.preventDefault()
-    getMovies()
+    getMovies({ search })
   }
 
+  const debouncedGetMovies = useCallback(
+    debounce(search => {
+      console.log('Search', search)
+      getMovies({ search })
+    }, 300)
+    , [getMovies])
+
   const handleChange = (event) => {
-    updateSearch(event.target.value)
+    const newSearch = event.target.value
+    updateSearch(newSearch)
+    debouncedGetMovies(newSearch)
   }
+
+  const handleSort = () => {
+    setSort(!sort)
+  }
+
+
 
   return (
     <>
@@ -57,6 +75,7 @@ function App() {
                 borderColor: error ? 'red' : 'transparent'
               }} onChange={handleChange} value={search} type='text' name='query' placeholder='Escribi la pelicula a buscar...'
             />
+            <input type="checkbox" onChange={handleSort} checked={sort} />
 
             <button type='submit'>Buscar</button>
           </form>
