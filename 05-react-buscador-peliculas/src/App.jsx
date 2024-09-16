@@ -44,6 +44,7 @@ function App() {
     getMovies({ search })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedGetMovies = useCallback(
     debounce(search => {
       console.log('Search', search)
